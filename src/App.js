@@ -10,6 +10,7 @@ import EmployerRoute from "./components/Shared/EmployerRoute/EmployerRoute";
 import EmployerJobPosting from "./components/Employer/EmployerJobPosting";
 import Home from "./components/Shared/Home/Home";
 import EmployerAllJobsPosted from "./components/Employer/EmployerAllJobsByHim";
+import PostApprove from "./components/Admin/PostApprove/PostApprove";
 
 const App = () => {
   return (
@@ -31,6 +32,9 @@ const App = () => {
           <EmployerRoute path="/postedJobByMe">
             <EmployerAllJobsPosted />
           </EmployerRoute>
+          <AdminRoute path="/postApprove">
+            <PostApprove />
+          </AdminRoute>
         </Switch>
       </Router>
     </ProvideAuth>

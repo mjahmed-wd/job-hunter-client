@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import Select from "react-select";
 import { AuthContext } from "../Shared/ProvideAuth/ProvideAuth";
 import axios from "axios";
 
@@ -20,7 +21,15 @@ const EmployerJobPosting = () => {
     companyName: "",
     jobTitle: "",
     jobHoursPerMonth: "",
+    jobTag: { value: 1, label: "All" },
   };
+
+  const jobTagOptions = [
+    { value: 1, label: "All" },
+    { value: 2, label: "Govt. Job" },
+    { value: 3, label: "Non Govt. Job" },
+    { value: 4, label: "Bank Job" },
+  ];
   return (
     <div>
       <h2>Post a Job</h2>
@@ -102,6 +111,16 @@ const EmployerJobPosting = () => {
               {errors.jobHoursPerMonth &&
                 touched.jobHoursPerMonth &&
                 errors.jobHoursPerMonth}
+            </div>
+            <div>
+              <label htmlFor="jobTag">Select Job Tag</label>
+              <Select
+                options={jobTagOptions}
+                name="jobTag"
+                onChange={(v) => {
+                  setFieldValue("jobTag", v);
+                }}
+              />
             </div>
 
             <button type="submit" disabled={!dirty || !isValid || isSubmitting}>
