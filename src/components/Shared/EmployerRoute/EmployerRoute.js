@@ -4,18 +4,18 @@ import { AuthContext } from "../ProvideAuth/ProvideAuth";
 // import { AuthContext } from "../ProvideAuth/ProvideAuth";
 
 
-const AdminRoute = ({ children, ...rest }) => {
+const EmployerRoute = ({ children, ...rest }) => {
     const {currentUser}=useContext(AuthContext)
 
 // const auth = useAuth()
 const user=currentUser
-console.log("AdminRoute",user?.role==="Admin")
+console.log("AdminRoute",user?.role==="Employer")
 
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        (user&& user.role==="Admin") ? (
+        (user&& user.role==="Employer") ? (
           children
         ) : (
           <Redirect
@@ -30,4 +30,4 @@ console.log("AdminRoute",user?.role==="Admin")
   );
 };
 
-export default AdminRoute;
+export default EmployerRoute;

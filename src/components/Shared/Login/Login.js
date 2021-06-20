@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
 import { AuthContext } from "../ProvideAuth/ProvideAuth";
+import { useHistory, useLocation } from "react-router";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -14,9 +15,24 @@ const LoginSchema = Yup.object().shape({
   // )
 });
 
+
 const Signup = () => {
   const initData = { userType: "", userPackage: "", email: "", password: "" };
   const { currentUser, auth } = useContext(AuthContext);
+
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/" } };
+
+
+  useEffect(() => {
+    if (currentUser === null) {
+      console.log("null value for user");
+    } else {
+      // A valid user just logged in. Loaded from context Api
+      history.replace(from);
+    }
+  }, [currentUser, from, history]);
 
   return (
     <div>
@@ -25,7 +41,7 @@ const Signup = () => {
         validationSchema={LoginSchema}
         onSubmit={(values, { setSubmitting }) => {
           //   console.log(values);
-          auth.signinWithEmail(values?.email, values?.password,values);
+          auth.signinWithEmail(values?.email, values?.password, values);
         }}
       >
         {({
@@ -62,6 +78,7 @@ const Signup = () => {
               />
               {errors.password && touched.password && errors.password}
             </div>
+            
             <button type="submit" disabled={isSubmitting}>
               Sign In
             </button>

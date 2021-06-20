@@ -7,10 +7,12 @@ import { useContext } from "react";
 import { createContext } from "react";
 import { CircularProgress } from "@material-ui/core";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 const ProvideAuth = ({ children }) => {
+  
   firebaseInitialization();
 
   const [currentUser, setCurrentUser] = useState(null);
@@ -31,10 +33,8 @@ const ProvideAuth = ({ children }) => {
             // Handle error
           });
         // Check Admin Role
-        console.log(user, "user")
-        fetch(
-          `http://localhost:5000/checkUserRole/${user.email}`
-        )
+        console.log(user, "user");
+        fetch(`http://localhost:5000/checkUserRole/${user.email}`)
           .then((res) => res.json())
           .then((data) => {
             // console.log(data.length);
@@ -44,7 +44,10 @@ const ProvideAuth = ({ children }) => {
             //   // console.log("Role: User");
             //   user.role = "User";
             // }
-            user.role=data
+            user.role = data?.userType?.label;
+            if (data?.userType?.label === "Employer") {
+              user.jobHourPerMonth = data?.userPackage?.value;
+            }
             // console.log(user?.role);
             setCurrentUser(user);
             setPending(false);
@@ -80,6 +83,7 @@ export const useAuth = () => {
 
 function useProvideAuth() {
   firebaseInitialization();
+  const history = useHistory();
 
   const [user, setUser] = useState(null);
   // Wrap any Firebase methods we want to use making sure ...
@@ -106,46 +110,50 @@ function useProvideAuth() {
       });
   };
   const signinWithEmail = (email, password) => {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in 
-      var user = userCredential.user;
-      setUser(user);
-      // ...
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
-      // ..
-    });
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        setUser(user);
+        // ...
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage);
+        // ..
+      });
   };
   const signupWithEmail = (email, password, userDetails) => {
     firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      var user = userCredential.user;
-      setUser(user);
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        setUser(user);
 
-      axios.post('http://localhost:5000/addUser', userDetails)
-      .then(function (response) {
-        console.log(response);
+        axios
+          .post("http://localhost:5000/addUser", userDetails)
+          .then(function (response) {
+            console.log(response);
+            history.push("/");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        console.log("user is signed up", user);
+
+        // ...
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage);
+        // ..
       });
-      console.log("user is signed up", user);
-
-      // ...
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
-      // ..
-    });
   };
   const signout = () => {
     return firebase
