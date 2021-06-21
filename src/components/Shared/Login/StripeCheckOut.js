@@ -69,12 +69,13 @@ const StripeCheckOut = ({ saveTrackingId , completeEmployeeSignup , values}) => 
           <Button classes={chubbyStyles} type="button" onClick={handleSubmit} disabled={!stripe}>
             Join as a Employer
           </Button>
+          <button className="btn btn-primary" type="button" onClick={handleSubmit} disabled={!stripe}>Join as a Employer</button>
         </div>
       </form>
       {paymentError && <p style={{ color: "red" }}>{paymentError}</p>}
       {paymentSuccess && (
         <p style={{ color: "green" }}>
-          Payment Success. Order processing started.
+          Payment Success. Registration will be completed shortly
         </p>
       )}
     </>
