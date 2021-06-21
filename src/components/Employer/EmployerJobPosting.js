@@ -123,7 +123,7 @@ const EmployerJobPosting = () => {
               />
             </div>
 
-            <button type="submit" disabled={!dirty || !isValid || isSubmitting}>
+            <button type="submit" disabled={!dirty || !isValid }>
               Post the job
             </button>
           </form>
