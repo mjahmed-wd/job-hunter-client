@@ -139,7 +139,6 @@ function useProvideAuth() {
           .post("http://localhost:5000/addUser", userDetails)
           .then(function (response) {
             console.log(response);
-            history.push("/");
           })
           .catch(function (error) {
             console.log(error);

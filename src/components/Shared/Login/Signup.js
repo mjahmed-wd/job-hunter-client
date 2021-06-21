@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import StripeCheckOut from "./StripeCheckOut";
@@ -6,6 +6,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Select from "react-select";
 import { AuthContext } from "../ProvideAuth/ProvideAuth";
+import { useHistory, useLocation } from "react-router";
 
 const jobSeekerSignupSchema = Yup.object().shape({
   email: Yup.string()
@@ -54,6 +55,20 @@ const Signup = () => {
     }
     auth.signupWithEmail(data?.email, data?.password, formValue)
   }
+  
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/" } };
+
+
+  useEffect(() => {
+    if (currentUser === null) {
+      console.log("null value for user");
+    } else {
+      // A valid user just logged in. Loaded from context Api
+      history.replace(from);
+    }
+  }, [currentUser, from, history]);
 
   return (
     <div>

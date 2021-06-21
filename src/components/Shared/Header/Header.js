@@ -61,11 +61,69 @@ const Header = () => {
                </>
               )}
 
-              {currentUser && (
+              {currentUser?.role=="Job Seeker" && (
+                <>
+                  <Nav.Link
+                    // onClick={
+                    //   () => history.push("/addJob")
+                    // }
+                  >
+                    Menu
+                  </Nav.Link>
+                  <NavDropdown
+                    title={currentUser?.displayName}
+                    id="basic-nav-dropdown"
+                  >
+                    {/* <NavDropdown.Item className="w-100">
+                      <h6 onClick={() => history.push("/postedJobByMe")}>
+                        My Activity
+                      </h6>
+                    </NavDropdown.Item> */}
+                    <NavDropdown.Item>
+                      <button
+                        onClick={() => handleLogOut()}
+                        className="btn btn-warning"
+                      >
+                        Log Out
+                      </button>
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
+              )}
+              {currentUser?.role=="Employer" && (
                 <>
                   <Nav.Link
                     onClick={
-                      () => history.push("/dashboard")
+                      () => history.push("/addJob")
+                    }
+                  >
+                    Add Job Post
+                  </Nav.Link>
+                  <NavDropdown
+                    title={currentUser?.displayName}
+                    id="basic-nav-dropdown"
+                  >
+                    <NavDropdown.Item className="w-100">
+                      <h6 onClick={() => history.push("/postedJobByMe")}>
+                        My Activity
+                      </h6>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <button
+                        onClick={() => handleLogOut()}
+                        className="btn btn-warning"
+                      >
+                        Log Out
+                      </button>
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
+              )}
+              {currentUser?.role=="Admin" && (
+                <>
+                  <Nav.Link
+                    onClick={
+                      () => history.push("/postApprove")
                     }
                   >
                     Dashboard
@@ -75,7 +133,7 @@ const Header = () => {
                     id="basic-nav-dropdown"
                   >
                     <NavDropdown.Item className="w-100">
-                      <h6 onClick={() => history.push("/orders")}>
+                      <h6 onClick={() => history.push("/postedJobByMe")}>
                         My Activity
                       </h6>
                     </NavDropdown.Item>

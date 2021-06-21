@@ -108,6 +108,7 @@ const EmployerJobPosting = () => {
                 type="number"
                 min={0}
               />
+              <small>In your current package, you can post "{currentUser?.jobHourPerMonth}" hours per month job.</small>
               {errors.jobHoursPerMonth &&
                 touched.jobHoursPerMonth &&
                 errors.jobHoursPerMonth}

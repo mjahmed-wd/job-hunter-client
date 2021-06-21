@@ -11,6 +11,7 @@ import EmployerJobPosting from "./components/Employer/EmployerJobPosting";
 import Home from "./components/Shared/Home/Home";
 import EmployerAllJobsPosted from "./components/Employer/EmployerAllJobsByHim";
 import PostApprove from "./components/Admin/PostApprove/PostApprove";
+import ApplyJob from "./components/JobSeeker/ApplyJob/ApplyJob";
 
 const App = () => {
   return (
@@ -25,6 +26,9 @@ const App = () => {
           </Route>
           <Route path="/signup">
             <Signup />
+          </Route>
+          <Route path="/job/:jobId">
+            <ApplyJob/>
           </Route>
           <EmployerRoute path="/addJob">
             <EmployerJobPosting />

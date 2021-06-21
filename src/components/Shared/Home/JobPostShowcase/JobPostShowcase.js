@@ -1,7 +1,9 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import Select from "react-select";
 import { DataGrid } from "@material-ui/data-grid";
+import CustomPaginationActionsTable from "./CustomPaginationActionsTable";
+import { AuthContext } from "../../ProvideAuth/ProvideAuth";
 
 const columns = [
   { field: "id", headerName: "Serial No", width: 70, sortable: false },
@@ -28,22 +30,12 @@ const columns = [
     headerName: "Job Category",
     width: 250,
   },
-  //   {
-  //     field: "jobTag",
-  //     headerName: "Job Tag",
-  //     description: "This column has a value getter and is not sortable.",
-  //     sortable: true,
-  //     width: 160,
-  //     valueGetter: (params) =>
-  //       `${params.getValue("firstName") || ""} ${
-  //         params.getValue("lastName") || ""
-  //       }`,
-  //   },
 ];
 
 const JobPostShowcase = () => {
   const [allJobData, setAllJobData] = useState([]);
   const [jobData, setJobData] = useState([]);
+  const { currentUser } = useContext(AuthContext);
   useEffect(() => {
     axios
       .get(`http://localhost:5000/getAllJob`)
@@ -91,7 +83,17 @@ const JobPostShowcase = () => {
           }
         }}
       />
-
+      {currentUser&&
+          <button onClick={()=>{
+            const temp = [...allJobData];
+            const difference= temp.filter(x=>!jobData.includes(x))
+            console.log(difference)
+            setJobData(difference)
+       }} className="btn btn-primary">
+          Filtered Out Data
+       </button>
+      }
+{/* 
       <div style={{ height: 400, width: "100%" }} className="text-center">
         <DataGrid rows={rows} columns={columns} pageSize={10} />
       </div>
@@ -105,7 +107,9 @@ const JobPostShowcase = () => {
             <p>{post?.companyName}</p>
             <p>Job Tag: {post?.jobTag?.label}</p>
           </div>
-        ))}
+        ))} */}
+
+        <CustomPaginationActionsTable rows={rows}/>
     </div>
   );
 };
