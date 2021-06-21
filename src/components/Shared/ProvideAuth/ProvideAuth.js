@@ -34,7 +34,7 @@ const ProvideAuth = ({ children }) => {
           });
         // Check Admin Role
         console.log(user, "user");
-        fetch(`http://localhost:5000/checkUserRole/${user.email}`)
+        fetch(`https://job-hunter-bd.herokuapp.com/checkUserRole/${user.email}`)
           .then((res) => res.json())
           .then((data) => {
             // console.log(data.length);
@@ -136,7 +136,7 @@ function useProvideAuth() {
         setUser(user);
 
         axios
-          .post("http://localhost:5000/addUser", userDetails)
+          .post("https://job-hunter-bd.herokuapp.com/addUser", userDetails)
           .then(function (response) {
             console.log(response);
           })

@@ -41,7 +41,7 @@ const EmployerJobPosting = () => {
           //   console.log(values);
           //   auth.signinWithEmail(values?.email, values?.password, values);
           axios
-            .post(`http://localhost:5000/addJob`, data)
+            .post(`https://job-hunter-bd.herokuapp.com/addJob`, data)
             .then((res) => alert("job post is pending for approval"))
             .catch((err) => console.log(err));
         }}

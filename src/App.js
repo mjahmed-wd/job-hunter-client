@@ -12,6 +12,7 @@ import Home from "./components/Shared/Home/Home";
 import EmployerAllJobsPosted from "./components/Employer/EmployerAllJobsByHim";
 import PostApprove from "./components/Admin/PostApprove/PostApprove";
 import ApplyJob from "./components/JobSeeker/ApplyJob/ApplyJob";
+import JobSeekerRoute from "./components/Shared/JobSeekerRoute/JobSeekerRoute";
 
 const App = () => {
   return (
@@ -27,9 +28,9 @@ const App = () => {
           <Route path="/signup">
             <Signup />
           </Route>
-          <Route path="/job/:jobId">
+          <JobSeekerRoute path="/job/:jobId">
             <ApplyJob/>
-          </Route>
+          </JobSeekerRoute>
           <EmployerRoute path="/addJob">
             <EmployerJobPosting />
           </EmployerRoute>

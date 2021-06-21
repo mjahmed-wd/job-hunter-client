@@ -16,6 +16,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 import { useHistory } from "react-router";
 import { AuthContext } from "../../ProvideAuth/ProvideAuth";
+import { CustomCard } from "./SingleJobCard";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -126,7 +127,7 @@ export default function CustomPaginationActionsTable({ rows }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(20);
   const { currentUser, auth } = useContext(AuthContext);
 
-  const history= useHistory()
+  const history = useHistory();
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -144,19 +145,30 @@ export default function CustomPaginationActionsTable({ rows }) {
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
         <TableBody>
-          {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
-          ).map((row) => (
-            <TableRow key={row._id}>
-              <h2> {row.jobTitle}</h2>
-              <p>Company: {row.companyName}</p>
-              <p>Posted By: {row.employerName}</p>
-              <p> Work Hour: {row.jobHoursPerMonth}</p>
-              <p>Type: {row.jobTag}</p>
-              <div className="btn btn-primary" style={{display: currentUser?.role==="Job Seeker"? "block":"none"}} onClick={()=>history.push(`/job/${row._id}`)}>Apply Now</div>
-            </TableRow>
-          ))}
+          <div className="row">
+            {(rowsPerPage > 0
+              ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : rows
+            ).map((row) => (
+              <>
+                <div className="col-3 mb-3" key={row.jobTitle}> 
+                  <CustomCard
+                    thumbnail={`https://picsum.photos/seed/${Math.random()*552}/200/300`}
+                    title={row.jobTitle}
+                    subtitle={row.companyName}
+                    jobId={row._id}
+                    description={
+                      <>Posted by
+                        <b> {row.employerName}</b> 
+                      <br />
+                      Category: <b>{row.jobTag}</b>
+                      </>
+                    }
+                  />
+                </div>
+              </>
+            ))}
+          </div>
 
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>

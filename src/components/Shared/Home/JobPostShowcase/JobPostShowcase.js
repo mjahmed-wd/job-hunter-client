@@ -38,7 +38,7 @@ const JobPostShowcase = () => {
   const { currentUser } = useContext(AuthContext);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/getAllJob`)
+      .get(`https://job-hunter-bd.herokuapp.com/getAllJob`)
       .then((res) => {
         setAllJobData(res.data);
         setJobData(res.data);
@@ -66,7 +66,8 @@ const JobPostShowcase = () => {
 
   return (
     <div>
-      <label htmlFor="jobTag">Filter</label>
+     <div style={{zIndex:99999}}>
+     <label htmlFor="jobTag">Filter</label>
       <Select
         options={jobTagOptions}
         name="jobTag"
@@ -83,13 +84,14 @@ const JobPostShowcase = () => {
           }
         }}
       />
+     </div>
       {currentUser&&
           <button onClick={()=>{
             const temp = [...allJobData];
             const difference= temp.filter(x=>!jobData.includes(x))
             console.log(difference)
             setJobData(difference)
-       }} className="btn btn-primary">
+       }} className="btn btn-primary mb-3">
           Filtered Out Data
        </button>
       }

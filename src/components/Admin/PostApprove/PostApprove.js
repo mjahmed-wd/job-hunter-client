@@ -7,7 +7,7 @@ const PostApprove = () => {
   const { currentUser, auth } = useContext(AuthContext);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/allposts`)
+      .get(`https://job-hunter-bd.herokuapp.com/allposts`)
       .then((res) => {
         setJobData(res.data);
         console.log(res.data);
@@ -18,7 +18,7 @@ const PostApprove = () => {
   const publishPost = (itemId, status) => {
       console.log(status)
     axios
-      .patch(`http://localhost:5000/publishJobPost/${itemId}`, {status})
+      .patch(`https://job-hunter-bd.herokuapp.com/publishJobPost/${itemId}`, {status})
       .then((res) => {console.log("data is added")})
       .catch((err) => console.log(err));
   };

@@ -7,7 +7,7 @@ const EmployerAllJobsPosted = () => {
   const { currentUser, auth } = useContext(AuthContext);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/allJobBySingleEmployer/${currentUser?.email}`)
+      .get(`https://job-hunter-bd.herokuapp.com/allJobBySingleEmployer/${currentUser?.email}`)
       .then((res) => {
         setJobData(res.data);
         console.log(res.data);

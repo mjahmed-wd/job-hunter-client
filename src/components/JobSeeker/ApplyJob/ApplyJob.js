@@ -3,7 +3,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
+
 import { AuthContext } from "../../Shared/ProvideAuth/ProvideAuth";
+import ApplyJobCard from "./ApplyJobCard";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().min(3, "Name is too short").required("Name is required"),
@@ -25,39 +27,36 @@ const ApplyJob = () => {
   };
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/findJob/${jobId}`)
+      .get(`https://job-hunter-bd.herokuapp.com/findJob/${jobId}`)
       .then((res) => {
         setJobData(res.data);
       })
       .catch((err) => console.log(err));
     axios
       .get(
-        `http://localhost:5000/checkDuplicateApply/${jobId}/${currentUser?.email}`
+        `https://job-hunter-bd.herokuapp.com/checkDuplicateApply/${jobId}/${currentUser?.email}`
       )
       .then((res) => {
-        if (res.data.length>0) {
+        if (res.data.length > 0) {
           setIsAlreadyApplied(true);
+        } else {
+          setIsAlreadyApplied(false);
         }
-        else{
-            setIsAlreadyApplied(false)
-        }
-      }).then(err=>console.log(err))
+      })
+      .then((err) => console.log(err));
   }, []);
 
   return (
     <div>
-      <h2>Job data</h2>
       {jobData !== {} && (
         <>
-          <div>
-            <h2>{jobData?.jobTitle}</h2>
-            <p>Company: {jobData?.companyName}</p>
-            <p>Employer Name: {jobData?.employerName}</p>
-            <p>Work Hour: {jobData?.jobHoursPerMonth}</p>
-            <p>Job Category:{jobData?.jobTag?.label}</p>
-          </div>
-          {isAlreadyApplied ? (
-            <h2>You have already applied on this post</h2>
+          <ApplyJobCard
+            title={jobData?.jobTitle}
+            company={jobData?.companyName}
+            description={` Job was posted by ${jobData?.employerName}, ${jobData?.jobHoursPerMonth} work hour per month, Job Category: ${jobData?.jobTag?.label} `}
+          >
+            {isAlreadyApplied ? (
+            <h2 className="text-center">You have already applied on this post</h2>
           ) : (
             <Formik
               initialValues={initData}
@@ -69,10 +68,10 @@ const ApplyJob = () => {
                   email: currentUser?.email,
                 };
                 axios
-                  .post(`http://localhost:5000/applyOnJob`, appliedData)
+                  .post(`https://job-hunter-bd.herokuapp.com/applyOnJob`, appliedData)
                   .then((res) => {
                     alert("data added");
-                    console.log(res);
+                    // toast("hi")
                   })
                   .catch((err) => console.log(err));
               }}
@@ -89,22 +88,24 @@ const ApplyJob = () => {
                 /* and other goodies */
               }) => (
                 <form onSubmit={handleSubmit}>
-                  <div>
+                  <div className="form-group d-flex flex-column">
                     <label htmlFor="name">Name: </label>
                     <input
                       type="text"
                       name="name"
+                      className="form-control"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.name}
                     />
                     {errors.name && touched.name && errors.name}
                   </div>
-                  <div>
+                  <div className="form-group d-flex flex-column">
                     <label htmlFor="qualification">Your Qualifications</label>
                     <input
                       type="text"
                       name="qualification"
+                      className="form-control"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.qualification}
@@ -113,11 +114,12 @@ const ApplyJob = () => {
                       touched.qualification &&
                       errors.qualification}
                   </div>
-                  <div>
+                  <div className="form-group d-flex flex-column">
                     <label htmlFor="phone">Your Phone No</label>
                     <input
                       type="text"
                       name="phone"
+                      className="form-control"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.phone}
@@ -127,6 +129,7 @@ const ApplyJob = () => {
                   {values?.userType?.value !== "employer" && (
                     <button
                       type="submit"
+                      className="btn btn-primary"
                       disabled={isSubmitting || isAlreadyApplied}
                     >
                       Apply Now
@@ -136,6 +139,8 @@ const ApplyJob = () => {
               )}
             </Formik>
           )}
+          
+          </ApplyJobCard>
         </>
       )}
     </div>
