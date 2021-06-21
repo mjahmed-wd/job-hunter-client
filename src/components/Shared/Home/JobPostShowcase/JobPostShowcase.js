@@ -42,7 +42,7 @@ const JobPostShowcase = () => {
       .then((res) => {
         setAllJobData(res.data);
         setJobData(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -89,7 +89,7 @@ const JobPostShowcase = () => {
           <button onClick={()=>{
             const temp = [...allJobData];
             const difference= temp.filter(x=>!jobData.includes(x))
-            console.log(difference)
+            // console.log(difference)
             setJobData(difference)
        }} className="btn btn-primary mb-3">
           Filtered Out Data

@@ -9,7 +9,7 @@ const AdminRoute = ({ children, ...rest }) => {
 
 // const auth = useAuth()
 const user=currentUser
-console.log("AdminRoute",user?.role==="Admin")
+// console.log("AdminRoute",user?.role==="Admin")
 
   return (
     <Route

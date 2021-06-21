@@ -15,6 +15,9 @@
 .makeStyles-card-4{
   z-index: 0!important;
 }
+.MuiTableContainer-root {
+  overflow-x: hidden!important;
+}
 
 .App-header {
   background-color: #282c34;

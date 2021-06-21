@@ -6,6 +6,7 @@ import { useParams } from "react-router";
 
 import { AuthContext } from "../../Shared/ProvideAuth/ProvideAuth";
 import ApplyJobCard from "./ApplyJobCard";
+import Header from "../../Shared/Header/Header";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().min(3, "Name is too short").required("Name is required"),
@@ -48,6 +49,7 @@ const ApplyJob = () => {
 
   return (
     <div>
+      <Header/>
       {jobData !== {} && (
         <>
           <ApplyJobCard

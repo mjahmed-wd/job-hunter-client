@@ -15,6 +15,8 @@ import CardHeader from "@material-ui/core/CardHeader";
 import { useContainedCardHeaderStyles } from "@mui-treasury/styles/cardHeader/contained";
 import { useSoftRiseShadowStyles } from "@mui-treasury/styles/shadow/softRise";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
+import Header from "../../Shared/Header/Header";
+import Footer from "../../Shared/Footer/Footer";
 
 const useStyles = makeStyles(({ spacing }) => ({
   card: {
@@ -54,20 +56,20 @@ const PostApprove = () => {
       .get(`https://job-hunter-bd.herokuapp.com/allposts`)
       .then((res) => {
         setJobData(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
   const publishPost = (itemId, status) => {
-    console.log(status);
+    // console.log(status);
     axios
       .patch(`https://job-hunter-bd.herokuapp.com/publishJobPost/${itemId}`, {
         status,
       })
       .then((res) => {
-        console.log("Data is Saved Successfully");
-        alert("Data is Published");
+        // console.log("Data is Saved Successfully");
+        alert("Changes are saved successfully");
       })
       .catch((err) => console.log(err));
   };
@@ -79,77 +81,86 @@ const PostApprove = () => {
     jobTitle: post.jobTitle,
     jobHoursPerMonth: post.jobHoursPerMonth,
     status: post.status,
+    _id: post._id,
   }));
   return (
-    <div className="d-flex justify-content-center mt-3 mb-3">
-      {jobData?.length > 0 && (
-        <Card className={cx(classes.card, cardShadowStyles.root)}>
-          <CardHeader
-            className={cardHeaderShadowStyles.root}
-            classes={cardHeaderStyles}
-            title={"All Jobs Posted by Employers"}
-            subheader={
-              "Jobs will be published after the your Approval, You can undo this by selecting 'Pending'"
-            }
-          />
-          <CardContent className={classes.content}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="right">SL</TableCell>
-                  <TableCell align="right">Employer Name</TableCell>
-                  <TableCell align="right">Company</TableCell>
-                  <TableCell align="right">Job Title</TableCell>
-                  <TableCell align="right">Hours per Month</TableCell>
-                  <TableCell align="right">Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell align="right">{row.id}</TableCell>
-                    <TableCell align="right">{row.employerName}</TableCell>
-                    <TableCell align="right">{row.companyName}</TableCell>
-                    <TableCell align="right">{row.jobTitle}</TableCell>
-                    <TableCell align="right">{row.jobHoursPerMonth}</TableCell>
-                    <TableCell align="right">
-                      <select
-                        name="postStatus"
-                        id="postStatus"
-                        className="form-control"
-                        onChange={(e) => publishPost(row?._id, e.target.value)}
-                      >
-                        <option value={row?.status}>{row?.status}</option>
-                        <option
-                          value="pending"
-                          className="form-control"
-                          style={{
-                            display:
-                              row?.status === "pending" ? "none" : "block",
-                          }}
-                        >
-                          Pending
-                        </option>
-                        <option
-                          value="publish"
-                          className="form-control"
-                          style={{
-                            display:
-                              row?.status === "publish" ? "none" : "block",
-                          }}
-                        >
-                          Publish
-                        </option>
-                      </select>
-                    </TableCell>
+    <>
+      <Header />
+      <div className="d-flex justify-content-center mt-3 mb-3">
+        {jobData?.length > 0 && (
+          <Card className={cx(classes.card, cardShadowStyles.root)}>
+            <CardHeader
+              className={cardHeaderShadowStyles.root}
+              classes={cardHeaderStyles}
+              title={"All Jobs Posted by Employers"}
+              subheader={
+                "Jobs will be published after the your Approval, You can undo this by selecting 'Pending'"
+              }
+            />
+            <CardContent className={classes.content}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="right">SL</TableCell>
+                    <TableCell align="right">Employer Name</TableCell>
+                    <TableCell align="right">Company</TableCell>
+                    <TableCell align="right">Job Title</TableCell>
+                    <TableCell align="right">Hours per Month</TableCell>
+                    <TableCell align="right">Status</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow key={row.id}>
+                      <TableCell align="right">{row.id}</TableCell>
+                      <TableCell align="right">{row.employerName}</TableCell>
+                      <TableCell align="right">{row.companyName}</TableCell>
+                      <TableCell align="right">{row.jobTitle}</TableCell>
+                      <TableCell align="right">
+                        {row.jobHoursPerMonth}
+                      </TableCell>
+                      <TableCell align="right">
+                        <select
+                          name="postStatus"
+                          id="postStatus"
+                          className="form-control"
+                          onChange={(e) =>
+                            publishPost(row?._id, e.target.value)
+                          }
+                        >
+                          <option value={row?.status}>{row?.status}</option>
+                          <option
+                            value="pending"
+                            className="form-control"
+                            style={{
+                              display:
+                                row?.status === "pending" ? "none" : "block",
+                            }}
+                          >
+                            Pending
+                          </option>
+                          <option
+                            value="publish"
+                            className="form-control"
+                            style={{
+                              display:
+                                row?.status === "publish" ? "none" : "block",
+                            }}
+                          >
+                            Publish
+                          </option>
+                        </select>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+      <Footer/>
+    </>
   );
 };
 

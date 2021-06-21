@@ -53,7 +53,7 @@ const ProvideAuth = ({ children }) => {
             setPending(false);
           });
       } else {
-        console.log(user?.role);
+        // console.log(user?.role);
         setCurrentUser(user);
         setPending(false);
       }
@@ -99,7 +99,7 @@ function useProvideAuth() {
         // var googleUser = result.user;
 
         setUser(result.user);
-        console.log("signedIN");
+        // console.log("signedIN");
         // ...
       })
       .catch((error) => {
@@ -143,7 +143,7 @@ function useProvideAuth() {
           .catch(function (error) {
             console.log(error);
           });
-        console.log("user is signed up", user);
+        // console.log("user is signed up", user);
 
         // ...
       })
@@ -191,7 +191,7 @@ function useProvideAuth() {
         newUserInfo.profilePicture = user.photoURL;
         newUserInfo.isSignedIn = true;
         setUser(newUserInfo);
-        console.log("clicked");
+        // console.log("clicked");
       } else {
         setUser(false);
       }

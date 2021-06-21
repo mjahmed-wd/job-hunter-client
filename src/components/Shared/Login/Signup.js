@@ -102,6 +102,8 @@ const Signup = () => {
     }
   }, [currentUser, from, history]);
 
+  console.log("currentUser",currentUser)
+
   return (
     <>
       <div className="container mt-5 mb-5">
@@ -126,7 +128,6 @@ const Signup = () => {
                 validationSchema={validation}
                 onSubmit={(values, { setSubmitting }) => {
                   //   console.log(values);
-
                   auth.signupWithEmail(values?.email, values?.password, values)
                 }}
               >

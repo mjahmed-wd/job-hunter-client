@@ -5,6 +5,7 @@ import Select from "react-select";
 import { AuthContext } from "../Shared/ProvideAuth/ProvideAuth";
 import axios from "axios";
 import JobPostCard from "./JobPostCard";
+import Header from "../Shared/Header/Header";
 
 const EmployerJobPosting = () => {
   const { currentUser, auth } = useContext(AuthContext);
@@ -33,6 +34,7 @@ const EmployerJobPosting = () => {
   ];
   return (
     <div>
+      <Header/>
       <JobPostCard>
       <Formik
         initialValues={initData}

@@ -15,6 +15,8 @@ import CardHeader from "@material-ui/core/CardHeader";
 import { useContainedCardHeaderStyles } from "@mui-treasury/styles/cardHeader/contained";
 import { useSoftRiseShadowStyles } from "@mui-treasury/styles/shadow/softRise";
 import { useFadedShadowStyles } from "@mui-treasury/styles/shadow/faded";
+import Header from "../Shared/Header/Header";
+import Footer from "../Shared/Footer/Footer";
 
 const useStyles = makeStyles(({ spacing }) => ({
   card: {
@@ -56,7 +58,7 @@ const EmployerAllJobsPosted = () => {
       )
       .then((res) => {
         setJobData(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -70,46 +72,52 @@ const EmployerAllJobsPosted = () => {
     status: post.status,
   }));
   return (
-    <div className="d-flex justify-content-center mt-3 mb-3">
-      {jobData?.length > 0 && (
-        <Card className={cx(classes.card, cardShadowStyles.root)}>
-          <CardHeader
-            className={cardHeaderShadowStyles.root}
-            classes={cardHeaderStyles}
-            title={"All Jobs Posted by You"}
-            subheader={"Jobs will be published after the admin approval"}
-          />
-          <CardContent className={classes.content}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="right">SL</TableCell>
-                  <TableCell align="right">Employer Name</TableCell>
-                  <TableCell align="right">Company</TableCell>
-                  <TableCell align="right">Job Title</TableCell>
-                  <TableCell align="right">Hours per Month</TableCell>
-                  <TableCell align="right">Status</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell align="right">{row.id}</TableCell>
-                    <TableCell align="right">{row.employerName}</TableCell>
-                    <TableCell align="right">{row.companyName}</TableCell>
-                    <TableCell align="right">{row.jobTitle}</TableCell>
-                    <TableCell align="right">{row.jobHoursPerMonth}</TableCell>
-                    <TableCell align="right">
-                      {row.status === "publish" ? "Published" : "Pending"}
-                    </TableCell>
+    <>
+      <Header />
+      <div className="d-flex justify-content-center mt-3 mb-3">
+        {jobData?.length > 0 && (
+          <Card className={cx(classes.card, cardShadowStyles.root)}>
+            <CardHeader
+              className={cardHeaderShadowStyles.root}
+              classes={cardHeaderStyles}
+              title={"All Jobs Posted by You"}
+              subheader={"Jobs will be published after the admin approval"}
+            />
+            <CardContent className={classes.content}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="right">SL</TableCell>
+                    <TableCell align="right">Employer Name</TableCell>
+                    <TableCell align="right">Company</TableCell>
+                    <TableCell align="right">Job Title</TableCell>
+                    <TableCell align="right">Hours per Month</TableCell>
+                    <TableCell align="right">Status</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow key={row.id}>
+                      <TableCell align="right">{row.id}</TableCell>
+                      <TableCell align="right">{row.employerName}</TableCell>
+                      <TableCell align="right">{row.companyName}</TableCell>
+                      <TableCell align="right">{row.jobTitle}</TableCell>
+                      <TableCell align="right">
+                        {row.jobHoursPerMonth}
+                      </TableCell>
+                      <TableCell align="right">
+                        {row.status === "publish" ? "Published" : "Pending"}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+      <Footer/>
+    </>
   );
 };
 

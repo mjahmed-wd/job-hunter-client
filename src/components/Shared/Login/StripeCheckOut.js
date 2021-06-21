@@ -69,7 +69,7 @@ const StripeCheckOut = ({ saveTrackingId , completeEmployeeSignup , values}) => 
           <Button classes={chubbyStyles} type="button" onClick={handleSubmit} disabled={!stripe}>
             Join as a Employer
           </Button>
-          <button className="btn btn-primary" type="button" onClick={handleSubmit} disabled={!stripe}>Join as a Employer</button>
+          {/* <button className="btn btn-primary" type="button" onClick={handleSubmit} disabled={!stripe}>Join as a Employer</button> */}
         </div>
       </form>
       {paymentError && <p style={{ color: "red" }}>{paymentError}</p>}
