@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import Select from "react-select";
 import { AuthContext } from "../Shared/ProvideAuth/ProvideAuth";
 import axios from "axios";
+import JobPostCard from "./JobPostCard";
 
 const EmployerJobPosting = () => {
   const { currentUser, auth } = useContext(AuthContext);
@@ -32,7 +33,7 @@ const EmployerJobPosting = () => {
   ];
   return (
     <div>
-      <h2>Post a Job</h2>
+      <JobPostCard>
       <Formik
         initialValues={initData}
         validationSchema={validationSchema}
@@ -60,11 +61,12 @@ const EmployerJobPosting = () => {
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
-            <div>
+            <div className="form-group d-flex flex-column">
               <label htmlFor="employerName">Type Your Name</label>
               <input
                 type="employerName"
                 name="employerName"
+                className="form-control"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.email}
@@ -73,47 +75,19 @@ const EmployerJobPosting = () => {
                 touched.employerName &&
                 errors.employerName}
             </div>
-            <div>
+            <div className="form-group d-flex flex-column">
               <label htmlFor="companyName">Type Your Company Name</label>
               <input
                 type="companyName"
                 name="companyName"
+                className="form-control"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.companyName}
               />
               {errors.companyName && touched.companyName && errors.companyName}
             </div>
-            <div>
-              <label htmlFor="jobTitle">Type the Job Title</label>
-              <input
-                type="jobTitle"
-                name="jobTitle"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.jobTitle}
-              />
-              {errors.jobTitle && touched.jobTitle && errors.jobTitle}
-            </div>
-            <div>
-              <label htmlFor="jobHoursPerMonth">
-                Type Job Hours Per Month{" "}
-              </label>
-              <input
-                type="jobHoursPerMonth"
-                name="jobHoursPerMonth"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.jobHoursPerMonth}
-                type="number"
-                min={0}
-              />
-              <small>In your current package, you can post "{currentUser?.jobHourPerMonth}" hours per month job.</small>
-              {errors.jobHoursPerMonth &&
-                touched.jobHoursPerMonth &&
-                errors.jobHoursPerMonth}
-            </div>
-            <div>
+            <div className="form-group d-flex flex-column">
               <label htmlFor="jobTag">Select Job Tag</label>
               <Select
                 options={jobTagOptions}
@@ -123,13 +97,47 @@ const EmployerJobPosting = () => {
                 }}
               />
             </div>
+            <div className="form-group d-flex flex-column">
+              <label htmlFor="jobTitle">Type the Job Title</label>
+              <input
+                type="jobTitle"
+                name="jobTitle"
+                className="form-control"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.jobTitle}
+              />
+              {errors.jobTitle && touched.jobTitle && errors.jobTitle}
+            </div>
+            <div className="form-group d-flex flex-column">
+              <label htmlFor="jobHoursPerMonth">
+                Type Job Hours Per Month{" "}
+              </label>
+              <input
+                type="jobHoursPerMonth"
+                name="jobHoursPerMonth"
+                className="form-control"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.jobHoursPerMonth}
+                type="number"
+                min={0}
+              />
+              <small>In your current package, you can post upto <b>{currentUser?.jobHourPerMonth}</b> hours per month job.</small>
+              {errors.jobHoursPerMonth &&
+                touched.jobHoursPerMonth &&
+                errors.jobHoursPerMonth}
+            </div>
+           
 
-            <button type="submit" disabled={!dirty || !isValid }>
+            <button type="submit" className="btn btn-primary" disabled={!dirty || !isValid }>
               Post the job
             </button>
           </form>
         )}
       </Formik>
+      </JobPostCard>
+      
     </div>
   );
 };
